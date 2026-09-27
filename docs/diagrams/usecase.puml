@@ -1,0 +1,52 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+
+actor "Клиент" as Client
+actor "Оператор" as Operator
+
+rectangle "Система учёта заявок в техподдержку" {
+    usecase "Регистрация" as UC_Reg
+    usecase "Вход в систему" as UC_LoginC
+    usecase "Вход в систему" as UC_LoginO
+
+    usecase "Меню заявок (клиент)" as UC_MenuC
+    usecase "Меню заявок (оператор)" as UC_MenuO
+    usecase "Добавление оператора" as UC_AddOp
+
+    usecase "Просмотр своих заявок" as UC_MyTickets
+    usecase "Создание заявки" as UC_Create
+    usecase "Добавление комментария" as UC_Comment
+    usecase "Оценка решения" as UC_Rate
+
+    usecase "Просмотр всех заявок" as UC_AllTickets
+    usecase "Взятие заявки в работу" as UC_Take
+    usecase "Изменение статуса заявки" as UC_Status
+    usecase "Закрытие заявки" as UC_Close
+
+    usecase "Ввод данных заявки" as UC_InputData
+    usecase "Выбор заявки" as UC_Select
+}
+
+Client --> UC_Reg
+Client --> UC_LoginC
+Operator --> UC_LoginO
+
+UC_LoginC --> UC_MenuC
+UC_LoginO --> UC_MenuO
+UC_LoginO --> UC_AddOp
+
+UC_MenuC --> UC_MyTickets
+UC_MenuC --> UC_Create
+UC_MenuC --> UC_Comment
+UC_MenuC --> UC_Rate
+
+UC_MenuO --> UC_AllTickets
+UC_MenuO --> UC_Take
+UC_MenuO --> UC_Status
+UC_MenuO --> UC_Close
+
+UC_Create ..> UC_InputData : <<include>>
+UC_Take ..> UC_AllTickets : <<include>>
+UC_Take ..> UC_Select : <<include>>
+@enduml
