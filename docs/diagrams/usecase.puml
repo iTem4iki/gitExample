@@ -1,10 +1,9 @@
-@startuml
+@startuml usecase
 left to right direction
 skinparam packageStyle rectangle
 
 actor "Клиент" as Client
 actor "Оператор" as Operator
-
 rectangle "Система учёта заявок в техподдержку" {
     usecase "Регистрация" as UC_Reg
     usecase "Вход в систему" as UC_LoginC
