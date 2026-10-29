@@ -1,15 +1,13 @@
+-- Схема базы данных: учёт заявок в техподдержку
+-- Выполняется один раз, когда файла tickets.db ещё нет
 
-DROP TABLE IF EXISTS Request;
-DROP TABLE IF EXISTS User;
-DROP TABLE IF EXISTS UserRole;
-
-CREATE TABLE UserRole (
+CREATE TABLE IF NOT EXISTS UserRole (
     UserRoleID  INTEGER PRIMARY KEY AUTOINCREMENT,
     name        TEXT NOT NULL,
     description TEXT
 );
 
-CREATE TABLE User (
+CREATE TABLE IF NOT EXISTS User (
     UserID       INTEGER PRIMARY KEY AUTOINCREMENT,
     login        TEXT NOT NULL UNIQUE,
     passwordHash TEXT NOT NULL,
@@ -17,9 +15,9 @@ CREATE TABLE User (
     FOREIGN KEY (UserRoleID) REFERENCES UserRole(UserRoleID)
 );
 
-CREATE TABLE Request (
+CREATE TABLE IF NOT EXISTS Request (
     RequestID  INTEGER PRIMARY KEY AUTOINCREMENT,
-    status     INTEGER NOT NULL DEFAULT 0, 
+    status     INTEGER NOT NULL DEFAULT 0,   -- 0 - открыта, 1 - закрыта
     clientID   INTEGER NOT NULL,
     operatorID INTEGER,
     comment    TEXT,
@@ -28,17 +26,18 @@ CREATE TABLE Request (
     FOREIGN KEY (operatorID) REFERENCES User(UserID)
 );
 
-
+-- Тестовые данные
 INSERT INTO UserRole (name, description) VALUES
-    ('Клиент', 'Пользователь, создающий заявки в техподдержку'),
-    ('Оператор', 'Сотрудник, обрабатывающий заявки клиентов');
+    ('Клиент', 'Создаёт заявки в техподдержку'),
+    ('Оператор', 'Обрабатывает заявки клиентов');
 
+-- пароли: ivanov и petrova - 1234, operator1 - oper123
 INSERT INTO User (login, passwordHash, UserRoleID) VALUES
-    ('ivanov',   'hash_1', 1),  
-    ('petrova',  'hash_2', 1),  
-    ('sidorov',  'hash_3', 2);  
+    ('ivanov',    '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', 1),
+    ('petrova',   '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', 1),
+    ('operator1', '13a93f9a5502e71eed80a806f87bc4424e03e6b0d90acd513ea9d561c853b738', 2);
 
 INSERT INTO Request (status, clientID, operatorID, comment, rate) VALUES
-    (0, 1, NULL, 'Не загружается личный кабинет', NULL),       
-    (1, 2, 3,    'Проблема решается, ждём подтверждения', NULL), 
-    (1, 1, 3,    'Проблема решена, спасибо за помощь', 5);       
+    (0, 1, NULL, 'Не загружается личный кабинет', NULL),
+    (0, 2, 3,    'Не приходит письмо с подтверждением', NULL),
+    (1, 1, 3,    'Не работает принтер', 5);
