@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='utf-8'?>
+<requests>
+  <request>
+    <id>1</id>
+    <status>0</status>
+    <status_text>Новая</status_text>
+    <comment>Не загружается личный кабинет</comment>
+    <rate />
+    <client>
+      <id>1</id>
+      <login>ivanov</login>
+    </client>
+    <operator />
+  </request>
+  <request>
+    <id>2</id>
+    <status>0</status>
+    <status_text>В работе</status_text>
+    <comment>Не приходит письмо с подтверждением</comment>
+    <rate />
+    <client>
+      <id>2</id>
+      <login>petrova</login>
+    </client>
+    <operator>
+      <id>3</id>
+      <login>operator1</login>
+    </operator>
+  </request>
+  <request>
+    <id>3</id>
+    <status>1</status>
+    <status_text>Закрыта</status_text>
+    <comment>Не работает принтер</comment>
+    <rate>5</rate>
+    <client>
+      <id>1</id>
+      <login>ivanov</login>
+    </client>
+    <operator>
+      <id>3</id>
+      <login>operator1</login>
+    </operator>
+  </request>
+  <request>
+    <id>4</id>
+    <status>1</status>
+    <status_text>Закрыта</status_text>
+    <comment>Не работает программа</comment>
+    <rate>5</rate>
+    <client>
+      <id>1</id>
+      <login>ivanov</login>
+    </client>
+    <operator>
+      <id>3</id>
+      <login>operator1</login>
+    </operator>
+  </request>
+</requests>

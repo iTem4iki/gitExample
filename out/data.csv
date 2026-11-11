@@ -1,0 +1,5 @@
+﻿id,status,status_text,comment,rate,client_id,client_login,operator_id,operator_login
+1,0,Новая,Не загружается личный кабинет,,1,ivanov,,
+2,0,В работе,Не приходит письмо с подтверждением,,2,petrova,3,operator1
+3,1,Закрыта,Не работает принтер,5,1,ivanov,3,operator1
+4,1,Закрыта,Не работает программа,5,1,ivanov,3,operator1
