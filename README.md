@@ -13,6 +13,7 @@
 - [ER-диаграмма базы данных](#er-диаграмма-базы-данных)
 - [Структура репозитория](#структура-репозитория)
 - [Сборка и запуск](#сборка-и-запуск)
+- [Экспорт данных](#экспорт-данных)
 
 ## Описание проекта
 
@@ -73,6 +74,8 @@ gitExample/
 ├── .gitignore
 ├── README.md
 ├── main.py                 # точка входа в программу
+├── export_data.py          # экспорт заявок в JSON, CSV, XML, YAML
+├── requirements.txt        # зависимости (PyYAML)
 ├── database/
 │   ├── database.py         # подключение к SQLite, создание таблиц
 │   └── schema.sql          # схема БД и тестовые данные
@@ -80,6 +83,7 @@ gitExample/
 ├── repositories/           # работа с БД, CRUD-операции
 ├── services/               # бизнес-логика
 ├── ui/                     # консольный интерфейс (меню, вход)
+├── out/                    # результат экспорта (data.json, data.csv, data.xml, data.yaml)
 └── docs/
     └── diagrams/
         ├── usecase.puml    # исходник диаграммы (PlantUML)
@@ -89,7 +93,13 @@ gitExample/
 
 ## Сборка и запуск
 
-Требуется Python 3.9 или новее. Сторонние библиотеки не нужны.
+Требуется Python 3.9 или новее. Для экспорта в YAML нужна библиотека PyYAML:
+
+```
+pip install -r requirements.txt
+```
+
+Запуск программы:
 
 ```
 python main.py
@@ -104,3 +114,22 @@ python main.py
 | Оператор | `operator1` | `oper123` |
 | Клиент | `ivanov` | `1234` |
 | Клиент | `petrova` | `1234` |
+
+## Экспорт данных
+
+Скрипт `export_data.py` выгружает все заявки вместе со связанными данными (клиент и оператор из таблицы `User`) в четыре формата. Файлы создаются в папке `out/`, если её нет, она создаётся автоматически.
+
+```
+python export_data.py
+```
+
+| Файл | Формат | Как представлены связанные данные |
+|---|---|---|
+| `out/data.json` | JSON | вложенные объекты `client` и `operator` |
+| `out/data.csv` | CSV | поля в одной строке: `client_id`, `client_login`, `operator_id`, `operator_login` |
+| `out/data.xml` | XML | вложенные элементы `<client>` и `<operator>` |
+| `out/data.yaml` | YAML | вложенные словари `client` и `operator` |
+
+Если у заявки ещё нет оператора, в JSON и YAML будет `null`, в XML пустой элемент `<operator />`, в CSV пустые ячейки.
+
+Код универсальный: SQL-запрос лежит в `repositories/export_repository.py`, колонки вида `client__login` автоматически попадают во вложенный объект `client`. Чтобы выгрузить другую таблицу, достаточно заменить запрос, логика сохранения в `services/export_service.py` не меняется.
